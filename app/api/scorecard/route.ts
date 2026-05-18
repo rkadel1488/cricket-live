@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { fetchMatch, type MatchDetail } from '@/lib/cricapi';
 
+// Module-scope cache: persists across requests in a long-lived Node process
+// but resets on each serverless cold start (e.g. Vercel). Best-effort for personal use.
 const cache = new Map<string, { data: MatchDetail; expiresAt: number }>();
 
 export async function GET(request: Request) {
@@ -16,8 +18,12 @@ export async function GET(request: Request) {
   try {
     const data = await fetchMatch(id);
     cache.set(id, { data, expiresAt: now + 2 * 60 * 1000 });
+    if (cache.size > 200) {
+      cache.delete(cache.keys().next().value!);
+    }
     return NextResponse.json({ data });
-  } catch {
+  } catch (err) {
+    console.error('[/api/scorecard]', err);
     if (hit) {
       return NextResponse.json({ data: hit.data, stale: true });
     }
