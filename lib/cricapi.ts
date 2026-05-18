@@ -69,7 +69,8 @@ export async function fetchCurrentMatches(): Promise<Match[]> {
 export async function fetchMatch(id: string): Promise<MatchDetail> {
   const key = process.env.CRICAPI_KEY;
   if (!key) throw new Error('CRICAPI_KEY environment variable is not set');
-  const url = new URL(`${BASE}/match`);
+  // Free tier only supports /match_info; /match requires a paid plan
+  const url = new URL(`${BASE}/match_info`);
   url.searchParams.set('apikey', key);
   url.searchParams.set('id', id);
   const res = await fetch(url.toString());

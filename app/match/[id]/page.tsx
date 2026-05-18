@@ -125,9 +125,29 @@ export default function MatchPage() {
             </div>
             {match.scorecard && match.scorecard.length > 0 ? (
               <Scorecard innings={match.scorecard} />
+            ) : match.score && match.score.length > 0 ? (
+              <div className="space-y-3">
+                {match.score.map((s) => (
+                  <div
+                    key={s.inning}
+                    className="flex items-center justify-between py-2 border-b"
+                    style={{ borderColor: 'var(--border)' }}
+                  >
+                    <span className="text-sm" style={{ color: 'var(--muted)' }}>
+                      {s.inning}
+                    </span>
+                    <span className="font-semibold tabular-nums">
+                      {s.r}/{s.w}{' '}
+                      <span className="text-xs font-normal" style={{ color: 'var(--muted)' }}>
+                        ({s.o} ov)
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
             ) : (
               <p style={{ color: 'var(--muted)' }} className="text-sm">
-                Scorecard not yet available for this match
+                Match has not started yet
               </p>
             )}
           </div>
