@@ -23,6 +23,7 @@ export default function StreamPlayer({ youtubeUrl, searchUrl }: StreamPlayerProp
         <iframe
           src={embedUrl}
           className="absolute inset-0 w-full h-full rounded-xl"
+          sandbox="allow-scripts allow-same-origin allow-presentation"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="Cricket Live Stream"

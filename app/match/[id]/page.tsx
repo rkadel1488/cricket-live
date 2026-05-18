@@ -22,10 +22,11 @@ export default function MatchPage() {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch(`/api/scorecard?id=${id}`);
+      const res = await fetch(`/api/scorecard?${new URLSearchParams({ id })}`);
       const json = await res.json();
       if (json.error) {
-        if (res.status === 400) { router.push('/'); return; }
+        // Only redirect on 400 for the initial load, not background refreshes
+        if (res.status === 400 && !match) { router.push('/'); return; }
         throw new Error(json.error);
       }
       setMatch(json.data);
