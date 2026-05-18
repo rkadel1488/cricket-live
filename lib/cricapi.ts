@@ -55,6 +55,7 @@ export interface MatchDetail extends Match {
 
 export async function fetchCurrentMatches(): Promise<Match[]> {
   const key = process.env.CRICAPI_KEY;
+  if (!key) throw new Error('CRICAPI_KEY environment variable is not set');
   const res = await fetch(`${BASE}/currentMatches?apikey=${key}&offset=0`);
   if (!res.ok) throw new Error(`CricAPI error: ${res.status}`);
   const json = await res.json();
@@ -64,6 +65,7 @@ export async function fetchCurrentMatches(): Promise<Match[]> {
 
 export async function fetchMatch(id: string): Promise<MatchDetail> {
   const key = process.env.CRICAPI_KEY;
+  if (!key) throw new Error('CRICAPI_KEY environment variable is not set');
   const res = await fetch(`${BASE}/match?apikey=${key}&id=${id}`);
   if (!res.ok) throw new Error(`CricAPI error: ${res.status}`);
   const json = await res.json();

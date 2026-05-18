@@ -15,6 +15,10 @@ const mockMatch = {
 
 global.fetch = jest.fn();
 
+beforeAll(() => {
+  process.env.CRICAPI_KEY = 'test-key';
+});
+
 beforeEach(() => jest.clearAllMocks());
 
 test('fetchCurrentMatches returns match array on success', async () => {
