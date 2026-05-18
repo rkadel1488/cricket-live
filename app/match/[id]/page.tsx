@@ -37,9 +37,11 @@ export default function MatchPage() {
     } finally {
       setLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, router]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
     const interval = setInterval(load, 30_000);
     return () => clearInterval(interval);
